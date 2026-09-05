@@ -1,0 +1,175 @@
+@import "tailwindcss";
+
+@theme {
+  --color-ivory-field: #F5F0E6;
+  --color-warm-sand: #DDD2C0;
+  --color-deep-petroleum: #142B3A;
+  --color-petrol-blue: #245463;
+  --color-copper-flame: #D96B3B;
+  --color-burnt-earth: #A9533D;
+  --color-ink: #0D1B24;
+  --color-soft-stone: #8B877D;
+  --color-mist: #E9E4DA;
+
+  /* Aliases */
+  --color-palladian: #F5F0E6;
+  --color-oatmeal: #DDD2C0;
+  --color-blue-fantastic: #245463;
+  --color-burning-flame: #D96B3B;
+  --color-truffle-trouble: #A9533D;
+  --color-abyssal-navy: #0D1B24;
+
+  --color-background: #F5F0E6;
+  --color-background-secondary: #DDD2C0;
+  --color-surface: #FFFFFF;
+  --color-foreground: #0D1B24;
+  
+  --color-card: #FAF8F5;
+  --color-card-foreground: #0D1B24;
+  --color-card-muted: #DDD2C0;
+
+  --color-border: #DDD2C0;
+  --color-border-subtle: #E9E4DA;
+  --color-border-bright: #8B877D;
+
+  --color-muted: #DDD2C0;
+  --color-muted-foreground: #8B877D;
+
+  --color-primary: #142B3A;
+  --color-primary-hover: #245463;
+  --color-primary-foreground: #F5F0E6;
+
+  --color-accent: #D96B3B;
+  --color-accent-hover: #C45A2C;
+  --color-accent-foreground: #0D1B24;
+
+  --color-secondary-accent: #A9533D;
+
+  --color-ai: #245463;
+  --color-ai-dim: #DDD2C0;
+
+  --color-success: #2F8068;
+  --color-success-dim: #E2ECE5;
+  
+  --color-warning: #D96B3B;
+  --color-warning-dim: #FBF0E2;
+  
+  --color-critical: #843D35;
+  --color-critical-dim: #F5E5E1;
+
+  --color-historical: #245463;
+
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+:root {
+  --background: #F5F0E6;
+  --background-secondary: #DDD2C0;
+  --foreground: #0D1B24;
+  --foreground-secondary: #142B3A;
+  --accent: #D96B3B;
+  --accent-earth: #A9533D;
+  --dark-surface: #0D1B24;
+  --dark-surface-secondary: #142B3A;
+
+  --geo-shift-fore-x: 0px;
+  --geo-shift-fore-y: 0px;
+  --geo-shift-mid-x: 0px;
+  --geo-shift-mid-y: 0px;
+  --geo-shift-deep-x: 0px;
+  --geo-shift-deep-y: 0px;
+  --mouse-shift-x: 0px;
+  --mouse-shift-y: 0px;
+}
+
+.geo-layer-fore {
+  transform: translate3d(var(--geo-shift-fore-x, 0px), var(--geo-shift-fore-y, 0px), 0);
+  will-change: transform;
+}
+
+.geo-layer-mid {
+  transform: translate3d(var(--geo-shift-mid-x, 0px), var(--geo-shift-mid-y, 0px), 0);
+  will-change: transform;
+}
+
+.geo-layer-deep {
+  transform: translate3d(var(--geo-shift-deep-x, 0px), var(--geo-shift-deep-y, 0px), 0);
+  will-change: transform;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --geo-shift-fore-x: 0px !important;
+    --geo-shift-fore-y: 0px !important;
+    --geo-shift-mid-x: 0px !important;
+    --geo-shift-mid-y: 0px !important;
+    --geo-shift-deep-x: 0px !important;
+    --geo-shift-deep-y: 0px !important;
+    --mouse-shift-x: 0px !important;
+    --mouse-shift-y: 0px !important;
+  }
+  .geo-layer-fore,
+  .geo-layer-mid,
+  .geo-layer-deep {
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+    box-sizing: border-box;
+  }
+
+  html {
+    color-scheme: light;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    min-height: 100vh;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Refined, unobtrusive warm scrollbar */
+  ::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: #F8F4E8;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: #D5CCBA;
+    border-radius: 4px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: #BFB49F;
+  }
+}
+
+/* Fluid Liquid button wave effect */
+@keyframes fluidWave {
+  0% {
+    transform: translateY(110%) scaleY(0.9);
+  }
+  50% {
+    transform: translateY(15%) scaleY(1.05);
+  }
+  100% {
+    transform: translateY(-10%) scaleY(1);
+  }
+}
+
+.liquid-fill-wave {
+  animation: fluidWave 0.5s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}
