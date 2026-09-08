@@ -1,0 +1,108 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Directional well construction explorer</title>
+</head>
+<body>
+<div id="app">
+  <header class="topbar">
+    <div class="title-block">
+      <div class="eyebrow">◉ Directional well construction explorer</div>
+    </div>
+    <button id="focusToggle" class="top-action">↗ Exit focus mode</button>
+  </header>
+
+  <div class="stage-strip" id="stageNav">
+    <button data-stage="overview" class="active">Overview</button>
+    <button data-stage="well">Well section</button>
+    <button data-stage="lithology">Lithology</button>
+    <button data-stage="bha">Directional BHA</button>
+    <button data-stage="casing">Surface &amp; casing</button>
+    <button data-stage="evaluation">Evaluation</button>
+    <div class="view-tools">
+      <button data-view="iso" title="Isometric">◇</button>
+      <button data-view="front" title="Front">↕</button>
+      <button data-view="top" title="Top">⊙</button>
+      <button id="explodeBtn" title="Explode">✦</button>
+      <button id="sectionBtn" title="Section">◐</button>
+    </div>
+  </div>
+
+  <main class="workspace">
+    <aside class="panel left">
+      <div class="project-row">
+        <div>
+          <div class="label">ACTIVE JOB</div>
+          <div class="project-title">Preparing a conductor</div>
+        </div>
+        <div class="tiny-actions"><button>⌁</button><button>⋮</button></div>
+      </div>
+      <div class="copy">Plan and visualize a directional well from surface through reservoir. Select a construction stage to inspect the design intent.</div>
+      <div class="section-title">Project status</div>
+      <div class="status-card">
+        <span>Phase</span><b id="phaseText">Conductor</b>
+        <span>Target</span><b id="targetText">North-west reservoir</b>
+      </div>
+      <div class="section-title">Milestones</div>
+      <div class="milestones" id="milestones"></div>
+      <div class="hint-card">Tip: use the stage tabs to reproduce the major transitions from the reference video.</div>
+    </aside>
+
+    <section class="viewport" id="viewport">
+      <div id="canvas"></div>
+      <div class="hud top-left">
+        <div class="hud-title"><span class="live-dot"></span><span id="hudStage">Preparing a conductor</span></div>
+        <div class="hud-sub">3D visual inspection / not to scale</div>
+      </div>
+      <div class="sequence-hud hud">
+        <div class="hud-sub">REFERENCE SEQUENCE</div>
+        <div class="sequence-label" id="sequenceLabel">01  Surface setup</div>
+        <div class="sequence-progress"><span id="sequenceProgress"></span></div>
+        <div class="sequence-actions"><button id="sequencePlay">Play sequence</button><button id="sequenceReplay">Replay</button></div>
+      </div>
+      <div class="hud depth-card">
+        <div class="hud-sub">CURRENT DEPTH</div>
+        <div class="depth-value"><span id="depthValue">0 m</span><span class="depth-unit">MD</span></div>
+      </div>
+      <div id="labels"></div>
+      <div class="bottom-tools">
+        <button id="zoomIn">＋</button><button id="zoomOut">－</button><button id="fitBtn">Fit</button>
+      </div>
+    </section>
+
+    <aside class="panel right">
+      <div class="label">WELL STATUS</div>
+      <div class="metric-grid">
+        <div><span>MD</span><b id="md">4,120 m</b></div>
+        <div><span>TVD</span><b id="tvd">3,680 m</b></div>
+        <div><span>INC</span><b id="inc">58°</b></div>
+        <div><span>AZI</span><b id="azi">142°</b></div>
+      </div>
+      <div class="section-title">Selected stage</div>
+      <div class="selected-card"><b id="selectedTitle">Conductor / wellhead</b><p id="selectedDescription">Prepare the conductor and surface connection before deeper drilling operations.</p></div>
+      <div class="section-title">Construction</div>
+      <div class="info-list">
+        <div><span>Surface casing</span><b>13 3/8&quot;</b></div>
+        <div><span>Intermediate</span><b>9 5/8&quot;</b></div>
+        <div><span>Production</span><b>7&quot;</b></div>
+        <div><span>BHA</span><b id="bhaStatus">Standby</b></div>
+      </div>
+      <div class="section-title">Display</div>
+      <label class="range-row"><span>Formation opacity</span><input id="opacity" type="range" min="0.18" max="0.85" value="0.48" step="0.01"></label>
+      <label class="check-row"><input id="gridToggle" type="checkbox" checked> <span>Engineering grid</span></label>
+      <label class="check-row"><input id="labelsToggle" type="checkbox" checked> <span>Technical labels</span></label>
+      <div class="right-actions"><button id="resetBtn">Reset camera</button><button id="autoBtn">Auto tour</button></div>
+    </aside>
+  </main>
+
+  <footer class="timeline-bar">
+    <div class="timeline-meta"><span>SIMULATION STAGE</span><b id="stageIndex">01 / 06</b></div>
+    <input id="timeline" type="range" min="0" max="100" value="0">
+    <div class="transport"><button id="prevBtn">◀</button><button id="playBtn">▶</button><button id="nextBtn">▶|</button></div>
+  </footer>
+</div>
+<script type="module" src="/src/main.js"></script>
+</body>
+</html>
