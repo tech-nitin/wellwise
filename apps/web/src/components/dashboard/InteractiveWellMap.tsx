@@ -366,15 +366,22 @@ export function InteractiveWellMap() {
   };
 
   return (
-    <section id="nearby-wells-map" className="relative w-full py-16 lg:py-20 overflow-hidden border-b border-[#DDD2C0] select-none">
+    <section id="nearby-wells-map" className="relative w-full py-12 lg:py-16 overflow-hidden border-b border-[#DDD2C0] select-none">
       {/* Ambient Geological Background System - Cartographic Map Variant */}
       <GeologicalBackground variant="map" />
 
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-stretch">
-          {/* LEFT: "EXPLORE WELLS ACROSS INDIA" + Filters + Open Full Map */}
-          <div className="lg:col-span-5 xl:col-span-4 flex flex-col justify-between space-y-6 text-left">
-            <div className="space-y-4">
+      <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
+          {/* LEFT: Spatial Controls & Query Filters (~36% width on desktop) */}
+          <div className="lg:col-span-5 xl:col-span-4 flex flex-col justify-between space-y-5 text-left">
+            <div className="space-y-3">
+              {/* Product Flow Eyebrow */}
+              <div className="flex items-center gap-2">
+                <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#2F8068] bg-[#2F8068]/10 px-2.5 py-0.5 rounded-full border border-[#2F8068]/30">
+                  01 &bull; DISCOVER THE WELL &amp; OFFSET CONTEXT
+                </span>
+              </div>
+
               <div className="flex items-center gap-2.5 flex-wrap">
                 <span className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#142B3A] text-[#D96B3B] text-[10px] font-mono font-bold uppercase tracking-wider">
                   <Radio className="h-3 w-3 animate-pulse text-[#D96B3B]" />
@@ -385,16 +392,13 @@ export function InteractiveWellMap() {
                 </span>
               </div>
 
-              <div className="space-y-2">
-                <span className="text-[11px] font-mono uppercase tracking-widest text-[#A9533D] font-extrabold block">
-                  EXPLORE WELLS ACROSS INDIA
-                </span>
-                <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#0D1B24] leading-[1.08]">
+              <div className="space-y-1">
+                <h2 className="text-2xl sm:text-3xl lg:text-4xl font-extrabold tracking-tight text-[#0D1B24] leading-[1.1]">
                   See what happened around the well.
                 </h2>
               </div>
 
-              <p className="text-sm sm:text-base text-[#142B3A]/80 leading-relaxed">
+              <p className="text-xs sm:text-sm text-[#142B3A]/80 leading-relaxed">
                 Explore nearby and offset wells, historical drilling events, formation intelligence and operational risks across Indian oil &amp; gas regions.
               </p>
             </div>

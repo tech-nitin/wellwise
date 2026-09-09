@@ -100,7 +100,7 @@ export function Header() {
   };
 
   // Active route helpers
-  const isOverviewActive = pathname === "/dashboard" || pathname === "/";
+  const isDashboardActive = pathname === "/dashboard" || pathname === "/";
   const isWellsActive =
     pathname === "/nearby-wells" ||
     pathname.startsWith("/wells") ||
@@ -137,8 +137,8 @@ export function Header() {
         className={cn(
           "sticky top-0 z-40 w-full transition-all duration-200 border-b select-none",
           scrolled
-            ? "h-[66px] bg-[#F5F0E6]/92 backdrop-blur-md border-[#E9E4DA] shadow-[0_2px_12px_rgba(20,43,58,0.05)]"
-            : "h-[74px] bg-[#F5F0E6]/85 backdrop-blur-sm border-[#E9E4DA]/80 shadow-none"
+            ? "h-[64px] bg-[#F5F0E6]/95 backdrop-blur-md border-[#E9E4DA] shadow-[0_2px_12px_rgba(20,43,58,0.05)]"
+            : "h-[70px] bg-[#F5F0E6]/90 backdrop-blur-sm border-[#E9E4DA]/80 shadow-none"
         )}
       >
         <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 w-full h-full flex items-center justify-between">
@@ -146,7 +146,7 @@ export function Header() {
           <Link
             href="/dashboard"
             className="flex items-center gap-2.5 group cursor-pointer shrink-0"
-            aria-label="WellWise Home"
+            aria-label="WellWise Dashboard Home"
           >
             <div className="h-9 w-9 rounded-[10px] bg-[#142B3A] flex items-center justify-center text-white shadow-2xs group-hover:bg-[#245463] transition-colors shrink-0">
               <svg
@@ -183,18 +183,18 @@ export function Header() {
 
           {/* 2. Center: Primary Clean Horizontal Navigation */}
           <nav className="hidden lg:flex items-center gap-7 xl:gap-8" aria-label="Main Navigation">
-            {/* Item 1: Overview */}
+            {/* Item 1: Dashboard */}
             <Link
               href="/dashboard"
               className={cn(
                 "relative py-1 text-sm font-medium transition-colors cursor-pointer select-none",
-                isOverviewActive
+                isDashboardActive
                   ? "text-[#142B3A] font-semibold"
                   : "text-[#142B3A]/75 hover:text-[#142B3A]"
               )}
             >
-              <span>Overview</span>
-              {isOverviewActive && (
+              <span>Dashboard</span>
+              {isDashboardActive && (
                 <div className="absolute -bottom-2 left-0 right-0 flex items-center justify-center">
                   <div className="h-[2px] w-full bg-[#142B3A] rounded-full" />
                   <span className="absolute -bottom-0.5 h-1.5 w-1.5 rounded-full bg-[#D96B3B]" />
@@ -437,18 +437,18 @@ export function Header() {
               className="lg:hidden w-full border-b border-[#DDD2C0] bg-[#F5F0E6] shadow-md px-5 py-4 overflow-hidden text-left"
             >
               <div className="flex flex-col space-y-3">
-                {/* Mobile Overview */}
+                {/* Mobile Dashboard */}
                 <Link
                   href="/dashboard"
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
                     "px-3 py-2 rounded-xl text-sm font-semibold transition-colors",
-                    isOverviewActive
+                    isDashboardActive
                       ? "bg-[#DDD2C0]/50 text-[#142B3A]"
                       : "text-[#142B3A]/80 hover:bg-[#DDD2C0]/30"
                   )}
                 >
-                  Overview
+                  Dashboard
                 </Link>
 
                 {/* Mobile Wells Accordion */}
