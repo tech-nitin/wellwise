@@ -6,37 +6,48 @@ import {
   ShieldAlert,
   ArrowRight,
   CheckCircle2,
+  Activity,
+  FileText,
+  AlertTriangle,
 } from "lucide-react";
 import { GeologicalBackground } from "@/components/ui/GeologicalBackground";
 
 export function RiskIntelligence() {
   const supportingEvidence = [
     {
-      title: "Rising Torque",
-      value: "+34% over 8m",
-      description: "Progressive cyclic torque drag detected in permeable Tipam sandstone zone.",
-      tag: "Live Sensor Anomaly",
-      critical: false,
-    },
-    {
-      title: "Low ROP",
-      value: "14.2 m/h",
-      description: "Drilling rate reduced from 22.5 to 14.2 m/h indicating differential wall friction.",
-      tag: "MWD Telemetry",
-      critical: false,
-    },
-    {
-      title: "Historical Matching Events",
-      value: "NHK-119 Precedent",
-      description: "Stuck pipe occurred at 3,265 m after 14-min pump pause; required 48 hrs NPT to jar free.",
-      tag: "Offset Log Match",
+      source: "NHK-119",
+      depth: "3,160 m MD",
+      event: "Differential sticking",
+      relevance: "Lead Precedent (94.6% match)",
+      description: "Pipe stuck after 14-min connection pause in high-permeability sandstone. Required 48 hrs jarring to free.",
+      tag: "Historical Event Match",
       critical: true,
     },
     {
-      title: "Similar Offset Wells",
-      value: "7 Offset Wells",
-      description: "Geological fault block OIL-NAH-04 displays high differential overbalance risk across 3,240–3,310m.",
+      source: "DDR #84-2023",
+      depth: "3,180 m MD",
+      event: "Historical torque increase",
+      relevance: "Precursor Signature (+38%)",
+      description: "Cyclic torque oscillations and erratic drag preceded tight hole by 45 minutes across Barail contact.",
+      tag: "Precursor Trend",
+      critical: false,
+    },
+    {
+      source: "NHK-121",
+      depth: "3,190 m MD",
+      event: "Similar formation response",
+      relevance: "Lithology Overbalance (+1.2 ppg)",
+      description: "Tipam sandstone interval demonstrated high differential filtration cake thickness and high wall contact.",
       tag: "Basin Correlation",
+      critical: false,
+    },
+    {
+      source: "Mitigation Record",
+      depth: "3,220 m MD",
+      event: "Mud-weight adjustment & soak pill",
+      relevance: "Resolution Protocol",
+      description: "Spotting 40-bbl glycol-oil lubricant pill with continuous string oscillation freed assembly without sidetrack.",
+      tag: "Mitigation Record",
       critical: false,
     },
   ];
@@ -44,174 +55,203 @@ export function RiskIntelligence() {
   return (
     <section
       id="risk-intelligence"
-      className="relative w-full py-16 lg:py-20 overflow-hidden border-b border-[#DDD2C0] select-none"
+      className="relative w-full py-12 lg:py-16 overflow-hidden border-b border-[#DDD2C0] select-none"
     >
       {/* Ambient Geological Background System - Predictive Risk Subsurface Depth Variant */}
       <GeologicalBackground variant="risk" />
 
-      <div className="max-w-[1400px] mx-auto px-4 sm:px-6 lg:px-8 space-y-8 relative z-10">
-        {/* Section Heading */}
+      <div className="max-w-[1360px] mx-auto px-4 sm:px-6 lg:px-8 space-y-7 relative z-10">
+        {/* Section Heading & Flow Indicator */}
         <div className="max-w-3xl text-left space-y-3">
+          <div className="flex items-center gap-2">
+            <span className="text-[10px] font-mono font-bold uppercase tracking-widest text-[#843D35] bg-[#843D35]/10 px-2.5 py-0.5 rounded-full border border-[#843D35]/30">
+              04 &bull; DETECT EARLY-WARNING PATTERNS
+            </span>
+          </div>
+
           <div className="inline-flex items-center gap-2 text-xs font-mono uppercase tracking-widest text-[#A9533D] font-extrabold">
             <ShieldAlert className="h-3.5 w-3.5 text-[#D96B3B]" />
-            <span>EARLY-WARNING HAZARD INTELLIGENCE</span>
+            <span>EARLY-WARNING RISK INTELLIGENCE</span>
           </div>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight text-[#0D1B24] leading-[1.08]">
             Detect the Pattern<br />
             <span className="text-[#D96B3B]">Before It Becomes an Incident.</span>
           </h2>
-          <p className="text-base text-[#142B3A]/80 leading-relaxed max-w-2xl">
-            Continuous historical pattern matching correlates active MWD telemetry streams against 142 offset wells to surface operational hazards before NPT occurs.
+          <p className="text-sm sm:text-base text-[#142B3A]/80 leading-relaxed max-w-2xl">
+            Correlate active drilling signals with offset hazard catalogs to identify abnormal trends and retrieve proven engineering mitigations.
           </p>
         </div>
 
-        {/* Workflow Strip: Evidence-Backed Decision Support */}
-        <div className="flex items-center gap-2.5 flex-wrap text-xs font-mono text-[#142B3A]/70 pt-1">
-          <span className="px-3 py-1 rounded-full bg-[#142B3A] text-[#D96B3B] font-bold uppercase tracking-wider text-[10px]">
-            EVIDENCE-BACKED DECISION SUPPORT
-          </span>
-          <span className="hidden sm:inline text-[#DDD2C0]">&bull;</span>
-          <div className="flex items-center gap-1.5 text-[11px] flex-wrap">
-            <span>LIVE SIGNALS</span>
-            <span className="text-[#A9533D] font-bold">&rarr;</span>
-            <span>HISTORICAL PATTERN MATCH</span>
-            <span className="text-[#A9533D] font-bold">&rarr;</span>
-            <span className="text-[#843D35] font-extrabold">RISK INDICATOR</span>
-            <span className="text-[#A9533D] font-bold">&rarr;</span>
-            <span>SUPPORTING EVIDENCE</span>
-            <span className="text-[#A9533D] font-bold">&rarr;</span>
-            <span className="text-[#2F8068] font-bold">SUGGESTED MITIGATION</span>
+        {/* Workflow Strip: Signal → Detected → Match → Evidence → Attention */}
+        <div className="p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#DDD2C0] shadow-2xs font-mono text-xs text-[#142B3A]/80 flex items-center justify-between gap-3 flex-wrap">
+          <div className="flex items-center gap-2 flex-wrap text-[11px]">
+            <span className="px-2.5 py-0.5 rounded bg-[#142B3A] text-[#D96B3B] font-bold uppercase text-[10px]">
+              DECISION PIPELINE
+            </span>
+            <span className="font-semibold text-[#0D1B24]">REAL-TIME SIGNAL</span>
+            <span className="text-[#D96B3B] font-bold">&rarr;</span>
+            <span className="font-semibold text-[#0D1B24]">PATTERN DETECTED</span>
+            <span className="text-[#D96B3B] font-bold">&rarr;</span>
+            <span className="font-semibold text-[#0D1B24]">OFFSET MATCH</span>
+            <span className="text-[#D96B3B] font-bold">&rarr;</span>
+            <span className="font-semibold text-[#0D1B24]">HISTORICAL EVIDENCE</span>
+            <span className="text-[#D96B3B] font-bold">&rarr;</span>
+            <span className="font-extrabold text-[#843D35] bg-[#843D35]/10 px-2 py-0.5 rounded border border-[#843D35]/30">
+              ENGINEERING ATTENTION
+            </span>
           </div>
+          <span className="text-[10px] font-mono text-[#245463] font-bold hidden md:inline">
+            Deterministic Signal Matching
+          </span>
         </div>
 
         {/* Operational Intelligence Product Layout */}
-        <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-stretch">
-          {/* Main Risk Panel: Differential Sticking Hazard (6 cols) */}
-          <div className="lg:col-span-6 p-7 sm:p-9 rounded-3xl bg-[#FAF8F5] border border-[#DDD2C0] shadow-md text-left flex flex-col justify-between">
-            <div>
-              {/* Eyebrow & Status Badge */}
-              <div className="flex items-start justify-between gap-4 pb-5 border-b border-[#DDD2C0]">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8 items-stretch">
+          {/* Left Panel: Primary Early-Warning Risk Indicator (6 cols) */}
+          <div className="lg:col-span-6 p-6 sm:p-8 rounded-3xl bg-[#FAF8F5] border border-[#DDD2C0] shadow-md text-left flex flex-col justify-between">
+            <div className="space-y-4">
+              {/* Header: Title & Indicator Score */}
+              <div className="flex items-start justify-between gap-4 pb-4 border-b border-[#DDD2C0]">
                 <div>
-                  <span className="text-xs font-mono uppercase tracking-widest text-[#A9533D] font-extrabold block mb-1">
-                    ACTIVE DRILLING HAZARD SCENARIO
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#A9533D] font-extrabold block mb-1">
+                    EARLY-WARNING RISK INDICATOR
                   </span>
-                  <h3 className="text-2xl sm:text-3xl font-black text-[#0D1B24] tracking-tight font-mono">
+                  <h3 className="text-xl sm:text-2xl font-black text-[#0D1B24] tracking-tight font-mono">
                     DIFFERENTIAL STICKING HAZARD
                   </h3>
-                  <span className="text-xs font-mono text-[#142B3A]/70 mt-1 block">
+                  <span className="text-xs font-mono text-[#142B3A]/70 mt-0.5 block">
                     Formation Interval: Tipam Sandstone (3,240 m – 3,310 m MD)
                   </span>
                 </div>
 
-                {/* Risk Indicator 78/100 Badge */}
+                {/* Score */}
                 <div className="text-right flex flex-col items-end shrink-0">
-                  <span className="text-4xl sm:text-5xl font-black font-mono text-[#843D35] tracking-tight">
-                    78<span className="text-2xl text-[#843D35]/65 font-bold">/100</span>
+                  <span className="text-3xl sm:text-4xl font-black font-mono text-[#843D35] tracking-tight">
+                    78<span className="text-xl text-[#843D35]/65 font-bold">/100</span>
                   </span>
-                  <span className="mt-1 px-2.5 py-0.5 rounded-full bg-[#843D35] text-white font-mono text-[10px] font-extrabold uppercase tracking-wider shadow-2xs">
-                    Risk Indicator
+                  <span className="mt-1 px-2 py-0.5 rounded-full bg-[#843D35] text-white font-mono text-[9px] font-extrabold uppercase tracking-wider shadow-2xs">
+                    HIGH ATTENTION
                   </span>
                 </div>
               </div>
 
-              {/* Operational Intelligence Statement */}
-              <div className="py-5 space-y-3">
-                <p className="text-sm sm:text-base text-[#0D1B24] leading-relaxed font-semibold">
-                  &ldquo;Overbalance differential pressure (+1.2 ppg) combined with torque oscillations matches the precursor signature seen before pipe stuck in 7 offset wells.&rdquo;
-                </p>
-                <div className="flex items-center gap-4 text-xs font-mono text-[#142B3A]/70 pt-1">
-                  <div className="flex items-center gap-1.5">
-                    <span className="h-2 w-2 rounded-full bg-[#2F8068]" />
-                    <span>Evidence Match: 94.6%</span>
-                  </div>
-                  <div className="flex items-center gap-1.5 border-l border-[#DDD2C0] pl-4">
-                    <span>Lead Precedent: NHK-119</span>
-                  </div>
+              {/* Why is this being flagged? */}
+              <div className="space-y-2">
+                <span className="text-xs font-mono font-bold uppercase text-[#0D1B24] tracking-wide block">
+                  Why is this being flagged?
+                </span>
+                <ul className="space-y-2 text-xs sm:text-sm text-[#142B3A]/85 leading-relaxed font-medium">
+                  <li className="flex items-start gap-2">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#D96B3B] mt-2 shrink-0" />
+                    <span>Torque drag is currently <strong>+34% above</strong> the local operating baseline.</span>
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="h-1.5 w-1.5 rounded-full bg-[#D96B3B] mt-2 shrink-0" />
+                    <span>Historical offset wells recorded sticking events in a comparable interval.</span>
+                  </li>
+                </ul>
+              </div>
+
+              {/* Lead Evidence Summary */}
+              <div className="p-4 rounded-2xl bg-[#DDD2C0]/25 border border-[#DDD2C0] font-mono text-xs space-y-1.5">
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="text-[#142B3A]/70 font-semibold">Lead Precedent:</span>
+                  <span className="font-bold text-[#0D1B24]">NHK-119 &bull; 3,160–3,220 m</span>
+                </div>
+                <div className="flex items-center justify-between text-[11px]">
+                  <span className="text-[#142B3A]/70 font-semibold">Historical Event:</span>
+                  <span className="text-[#843D35] font-bold">Differential sticking</span>
+                </div>
+                <div className="flex items-center justify-between text-[11px] pt-1 border-t border-[#DDD2C0]/60">
+                  <span className="text-[#142B3A]/70 font-semibold">Similarity:</span>
+                  <span className="text-[#2F8068] font-bold">High (94.6% signature match)</span>
                 </div>
               </div>
 
-              {/* Suggested Mitigation Protocols (Historical Precedent-Based) */}
-              <div className="p-4 sm:p-5 rounded-2xl bg-[#DDD2C0]/25 border border-[#DDD2C0] space-y-2.5">
-                <div className="flex items-center justify-between">
-                  <span className="text-[11px] font-mono uppercase tracking-wider text-[#0D1B24] font-bold flex items-center gap-1.5">
-                    <CheckCircle2 className="h-4 w-4 text-[#2F8068]" />
-                    Suggested Mitigation (Precedent-Based)
+              {/* Suggested Precedent Mitigation Protocols */}
+              <div className="p-4 rounded-2xl bg-[#FAF8F5] border border-[#DDD2C0] space-y-2">
+                <div className="flex items-center justify-between text-xs font-mono">
+                  <span className="font-bold text-[#0D1B24] flex items-center gap-1.5">
+                    <CheckCircle2 className="h-3.5 w-3.5 text-[#2F8068]" />
+                    Recommended Investigation
                   </span>
-                  <span className="text-[10px] font-mono text-[#142B3A]/60">
-                    Decision Support
-                  </span>
+                  <span className="text-[10px] text-[#142B3A]/60">Action Checklist</span>
                 </div>
-                <ul className="space-y-2 text-xs text-[#142B3A]/85 font-mono">
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#A9533D] font-bold">01.</span>
-                    <span><strong>Maintain rotation:</strong> Keep drillstring rotating &gt;60 RPM during connection pauses.</span>
+                <ul className="space-y-1.5 text-xs text-[#142B3A]/80 font-mono">
+                  <li className="flex items-start gap-1.5">
+                    <span className="text-[#D96B3B] font-bold">&bull;</span>
+                    <span>Maintain string rotation &gt;60 RPM during connection pauses.</span>
                   </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#A9533D] font-bold">02.</span>
-                    <span><strong>Circulate high-rate:</strong> Boost annular flow to 860 L/min to prevent cuttings pack-off.</span>
-                  </li>
-                  <li className="flex items-start gap-2">
-                    <span className="text-[#A9533D] font-bold">03.</span>
-                    <span><strong>Standby soak pill:</strong> Pre-mix 40-bbl glycol-oil lubricant pill at suction pit.</span>
+                  <li className="flex items-start gap-1.5">
+                    <span className="text-[#D96B3B] font-bold">&bull;</span>
+                    <span>Verify mud filtration cake thickness across permeable sandstone.</span>
                   </li>
                 </ul>
               </div>
             </div>
 
-            <div className="mt-6 pt-4 border-t border-[#DDD2C0] flex items-center justify-between text-xs font-mono">
-              <span className="text-[#2F8068] font-bold">
-                Audit-Ready Evidence &bull; Rule #DS-14
+            {/* Panel CTA */}
+            <div className="mt-5 pt-4 border-t border-[#DDD2C0] flex items-center justify-between text-xs font-mono">
+              <span className="text-[#2F8068] font-bold flex items-center gap-1">
+                <Activity className="h-3.5 w-3.5 text-[#2F8068]" />
+                Early-Warning Decision Support
               </span>
               <Link
-                href="/risks"
-                className="inline-flex items-center gap-1.5 text-[#0D1B24] font-bold hover:text-[#A9533D] hover:translate-x-0.5 transition-all"
+                href="/risks?well=NHK-124"
+                className="inline-flex items-center gap-1.5 text-[#0D1B24] font-bold hover:text-[#D96B3B] transition-all group"
               >
-                <span>Full Risk Analysis</span>
-                <ArrowRight className="h-4 w-4 text-[#D96B3B]" />
+                <span>Inspect Risk Engine</span>
+                <ArrowRight className="h-3.5 w-3.5 text-[#D96B3B] group-hover:translate-x-0.5 transition-transform" />
               </Link>
             </div>
           </div>
 
-          {/* Supporting Evidence in Deep Petroleum (#142B3A) (6 cols) */}
-          <div className="lg:col-span-6 p-7 sm:p-9 rounded-3xl bg-[#142B3A] text-[#F5F0E6] shadow-xl text-left flex flex-col justify-between border border-[#245463]/50">
+          {/* Right Panel: Supporting Field Evidence in Deep Petroleum (#142B3A) (6 cols) */}
+          <div className="lg:col-span-6 p-6 sm:p-8 rounded-3xl bg-[#142B3A] text-[#F5F0E6] shadow-xl text-left flex flex-col justify-between border border-[#245463]/50">
             <div>
               <div className="flex items-center justify-between pb-4 border-b border-[#245463]">
                 <div>
-                  <span className="text-[11px] font-mono uppercase tracking-widest text-[#D96B3B] font-extrabold block mb-1">
-                    CORROBORATING EVIDENCE
+                  <span className="text-[10px] font-mono uppercase tracking-widest text-[#D96B3B] font-extrabold block mb-1">
+                    HISTORICAL CONTEXT
                   </span>
                   <h4 className="text-xl font-bold tracking-tight text-[#F5F0E6] font-mono">
-                    Supporting Field Evidence
+                    SUPPORTING FIELD EVIDENCE
                   </h4>
                 </div>
                 <span className="text-xs font-mono text-[#D96B3B] font-bold bg-[#245463] px-3 py-1 rounded-full border border-[#D96B3B]/30">
-                  4 signals &bull; 3 historical matches
+                  4 matches &bull; 3 historical precedents
                 </span>
               </div>
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-5">
+              {/* 4 Evidence Cards */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3.5 mt-4">
                 {supportingEvidence.map((item, idx) => (
                   <div
                     key={idx}
-                    className="p-4 sm:p-5 rounded-2xl bg-[#245463]/35 border border-[#245463]/70 hover:border-[#D96B3B]/50 transition-all flex flex-col justify-between space-y-2"
+                    className="p-3.5 rounded-2xl bg-[#245463]/30 border border-[#245463]/70 hover:border-[#D96B3B]/50 transition-all flex flex-col justify-between space-y-1.5"
                   >
                     <div>
-                      <div className="flex items-center justify-between mb-1.5">
-                        <span className="text-[10px] font-mono uppercase tracking-wider text-[#D96B3B] font-bold">
+                      <div className="flex items-center justify-between mb-1">
+                        <span className="text-[9px] font-mono uppercase tracking-wider text-[#D96B3B] font-bold">
                           {item.tag}
                         </span>
                         {item.critical && (
-                          <span className="h-2 w-2 rounded-full bg-[#843D35] ring-2 ring-[#843D35]/30" />
+                          <span className="h-2 w-2 rounded-full bg-[#843D35] ring-2 ring-[#843D35]/40" />
                         )}
                       </div>
-                      <h5 className="text-sm font-bold font-mono text-[#F5F0E6]">
-                        {item.title}
-                      </h5>
-                      <span className="text-base font-extrabold font-mono text-[#D96B3B] block mt-1">
-                        {item.value}
+                      <div className="flex items-baseline justify-between gap-1">
+                        <h5 className="text-xs font-bold font-mono text-[#F5F0E6]">
+                          {item.source}
+                        </h5>
+                        <span className="text-[10px] font-mono text-[#DDD2C0]/70">
+                          {item.depth}
+                        </span>
+                      </div>
+                      <span className="text-xs font-extrabold font-mono text-[#D96B3B] block mt-0.5">
+                        {item.event}
                       </span>
                     </div>
-                    <p className="text-xs text-[#F5F0E6]/75 leading-relaxed pt-2 border-t border-[#245463]">
+                    <p className="text-[11px] text-[#F5F0E6]/75 leading-relaxed pt-1.5 border-t border-[#245463]/60">
                       {item.description}
                     </p>
                   </div>
@@ -219,9 +259,19 @@ export function RiskIntelligence() {
               </div>
             </div>
 
-            <div className="mt-6 pt-4 border-t border-[#245463] flex items-center justify-between text-xs font-mono text-[#F5F0E6]/60">
-              <span>Source: Oil India Limited Offset Logs</span>
-              <span className="text-[#D96B3B] font-bold">Source Traceable</span>
+            {/* Bottom Citation & Link to RAG Evidence */}
+            <div className="mt-5 pt-4 border-t border-[#245463] flex items-center justify-between text-xs font-mono text-[#F5F0E6]/70">
+              <span className="flex items-center gap-1.5">
+                <FileText className="h-3.5 w-3.5 text-[#D96B3B]" />
+                <span>Source: Oil India Limited Offset Logs</span>
+              </span>
+              <Link
+                href="/knowledge?well=NHK-124&depth=3180"
+                className="inline-flex items-center gap-1 text-[#D96B3B] font-bold hover:underline"
+              >
+                <span>Open Evidence</span>
+                <ArrowRight className="h-3 w-3" />
+              </Link>
             </div>
           </div>
         </div>

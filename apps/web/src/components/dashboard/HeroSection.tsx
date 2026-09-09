@@ -6,17 +6,17 @@ import { motion, AnimatePresence } from "framer-motion";
 import { LiquidButton } from "@/components/ui/liquid-button";
 import { DrillingVisualization } from "./DrillingVisualization";
 import { GeologicalBackground } from "@/components/ui/GeologicalBackground";
-import { ArrowRight, Compass, Gauge, Radio } from "lucide-react";
+import { ArrowRight, Compass, Gauge, Radio, ShieldCheck } from "lucide-react";
 
 export function HeroSection() {
   const tickerItems = [
     { label: "BIT DEPTH", value: "3,240.0 m", status: "NORMAL" },
     { label: "FORMATION", value: "JURASSIC T13", status: "PAY ZONE" },
-    { label: "LIVE ROP", value: "18.5 m/h", status: "+23% BENCHMARK" },
+    { label: "STANDPIPE PRESSURE", value: "18.5 MPa", status: "HYDROSTATIC BALANCED" },
     { label: "OFFSET MATCH", value: "92% PRECEDENT", status: "VERIFIED" },
     { label: "EARLY WARNING", value: "DIFF. STICKING (78/100)", status: "ADVISORY" },
-    { label: "SURFACE TORQUE", value: "85 kN·m", status: "STABLE" },
-    { label: "MUD CIRCULATION", value: "820 L/min", status: "OPTIMAL" },
+    { label: "DOWNHOLE TEMP", value: "85°C", status: "GRADIENT STABLE" },
+    { label: "ROTARY SPEED", value: "820 rpm", status: "OPTIMAL DYNAMICS" },
   ];
 
   const [currentTickerIdx, setCurrentTickerIdx] = useState(0);
@@ -29,7 +29,7 @@ export function HeroSection() {
   }, [tickerItems.length]);
 
   return (
-    <section className="relative w-full pt-8 pb-14 lg:pt-12 lg:pb-18 border-b border-[#DDD2C0] overflow-hidden select-none">
+    <section className="relative w-full pt-6 pb-12 lg:pt-10 lg:pb-16 border-b border-[#DDD2C0] overflow-hidden select-none">
       {/* Ambient Geological Multi-Layered Background System */}
       <GeologicalBackground variant="hero" />
 
@@ -37,27 +37,30 @@ export function HeroSection() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-10 items-center">
           {/* Left Column: Editorial Headline & Actions */}
           <motion.div
-            initial={{ opacity: 0, y: 20 }}
+            initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
-            className="lg:col-span-6 xl:col-span-6 space-y-6 text-left"
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="lg:col-span-6 xl:col-span-6 space-y-5 text-left"
           >
-            {/* Technical Eyebrows */}
-            <div className="flex items-center gap-2.5 flex-wrap">
-              <div className="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-[#FAF8F5] border border-[#DDD2C0] shadow-2xs">
+            {/* Technical Eyebrows & Synthetic Disclaimer */}
+            <div className="flex items-center gap-2 flex-wrap">
+              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#FAF8F5] border border-[#DDD2C0] shadow-2xs">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#D96B3B] animate-pulse" />
-                <span className="text-[11px] font-mono uppercase tracking-widest text-[#245463] font-bold">
+                <span className="text-[10px] font-mono uppercase tracking-widest text-[#245463] font-bold">
                   AI FOR SAFER WELLS
                 </span>
               </div>
-              <div className="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-[#142B3A] text-[#F5F0E6] text-[10px] font-mono font-bold tracking-wider uppercase">
+              <div className="inline-flex items-center gap-1.5 px-3 py-0.5 rounded-full bg-[#142B3A] text-[#F5F0E6] text-[10px] font-mono font-bold tracking-wider uppercase">
                 <span className="h-1.5 w-1.5 rounded-full bg-[#D96B3B]" />
                 <span>ACTIVE FOCUS: UPPER ASSAM BASIN</span>
+              </div>
+              <div className="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full bg-[#DDD2C0]/30 border border-[#DDD2C0] text-[9px] font-mono text-[#142B3A]/70">
+                <span>SYNTHETIC DEMO DATA &bull; NOT VERIFIED OIL ASSET DATA</span>
               </div>
             </div>
 
             {/* Large Editorial Headline */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-[68px] font-extrabold tracking-tight text-[#0D1B24] leading-[1.05]">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl xl:text-[66px] font-extrabold tracking-tight text-[#0D1B24] leading-[1.05]">
               Know the Well.
               <br />
               <span className="bg-gradient-to-r from-[#D96B3B] via-[#E28555] to-[#A9533D] bg-clip-text text-transparent">
@@ -71,8 +74,8 @@ export function HeroSection() {
             </p>
 
             {/* CTAs: Primary Copper Flame + Secondary Petroleum Navy */}
-            <div className="flex flex-wrap items-center gap-3.5 pt-1">
-              <Link href="#nearby-wells-map">
+            <div className="flex flex-wrap items-center gap-3 pt-1">
+              <Link href="/nearby-wells">
                 <LiquidButton variant="primary">
                   <Compass className="h-4 w-4 text-[#0D1B24]" />
                   <span>Explore Wells</span>
@@ -80,41 +83,49 @@ export function HeroSection() {
                 </LiquidButton>
               </Link>
 
-              <Link href="#engineering-capabilities">
-                <LiquidButton variant="secondary">
-                  <Gauge className="h-4 w-4 text-[#142B3A]" />
-                  <span>See How It Works</span>
-                </LiquidButton>
-              </Link>
+              <LiquidButton
+                variant="secondary"
+                type="button"
+                onClick={() => {
+                  window.open(
+                    "https://well-drilling-simulation.vercel.app/",
+                    "_blank",
+                    "noopener,noreferrer"
+                  );
+                }}
+              >
+                <Gauge className="h-4 w-4 text-[#142B3A]" />
+                <span>See How It Works</span>
+              </LiquidButton>
             </div>
 
             {/* Technical Telemetry Ticker */}
-            <div className="pt-2">
+            <div className="pt-1">
               <div className="p-2.5 rounded-xl bg-[#FAF8F5] border border-[#DDD2C0] flex items-center gap-3 shadow-2xs overflow-hidden">
                 <div className="flex items-center gap-1.5 px-2.5 py-0.5 rounded bg-[#142B3A] text-[#D96B3B] text-[10px] font-mono font-bold uppercase shrink-0">
                   <Radio className="h-3 w-3 animate-pulse" />
-                  <span>TELEMETRY</span>
+                  <span>LIVE TELEMETRY</span>
                 </div>
 
                 <div className="relative h-6 flex-1 overflow-hidden">
                   <AnimatePresence mode="wait">
                     <motion.div
                       key={currentTickerIdx}
-                      initial={{ y: 16, opacity: 0 }}
+                      initial={{ y: 14, opacity: 0 }}
                       animate={{ y: 0, opacity: 1 }}
-                      exit={{ y: -16, opacity: 0 }}
-                      transition={{ duration: 0.35, ease: "easeInOut" }}
+                      exit={{ y: -14, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
                       className="absolute inset-0 flex items-center justify-between text-xs font-mono"
                     >
-                      <div className="flex items-center gap-2">
-                        <span className="text-[#245463]/75 uppercase text-[11px]">
+                      <div className="flex items-center gap-2 truncate">
+                        <span className="text-[#245463]/75 uppercase text-[10px] font-bold">
                           {tickerItems[currentTickerIdx].label}:
                         </span>
                         <span className="font-bold text-[#0D1B24]">
                           {tickerItems[currentTickerIdx].value}
                         </span>
                       </div>
-                      <span className="text-[10px] text-[#A9533D] font-bold px-2 py-0.5 rounded bg-[#D96B3B]/15 border border-[#A9533D]/30 hidden sm:inline">
+                      <span className="text-[10px] text-[#2F8068] font-bold px-2 py-0.5 rounded bg-[#2F8068]/15 border border-[#2F8068]/30 shrink-0 hidden sm:inline">
                         {tickerItems[currentTickerIdx].status}
                       </span>
                     </motion.div>
@@ -124,7 +135,7 @@ export function HeroSection() {
             </div>
 
             {/* Hero Micro Stats Row with Clear Scope Bounds */}
-            <div className="pt-4 border-t border-[#DDD2C0]">
+            <div className="pt-3 border-t border-[#DDD2C0]">
               <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-2 text-left">
                 <div className="flex flex-col sm:border-r border-[#DDD2C0] sm:pr-4 group">
                   <span className="text-2xl sm:text-3xl font-extrabold font-mono text-[#0D1B24] tracking-tight group-hover:text-[#A9533D] transition-colors">
@@ -158,7 +169,7 @@ export function HeroSection() {
                     Precedent Events
                   </span>
                   <span className="text-[10px] font-mono text-[#245463]/80">
-                    Indexed records
+                    Recorded intervals
                   </span>
                 </div>
 
@@ -177,11 +188,11 @@ export function HeroSection() {
             </div>
           </motion.div>
 
-          {/* Right Column: ~52% on desktop (Large 3D Subsurface Visualization) */}
+          {/* Right Column: ~50% on desktop (Large 3D Subsurface Visualization) */}
           <motion.div
             initial={{ opacity: 0, scale: 0.96 }}
             animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.15, ease: [0.22, 1, 0.36, 1] }}
+            transition={{ duration: 0.7, delay: 0.1, ease: [0.22, 1, 0.36, 1] }}
             className="lg:col-span-6 xl:col-span-6 flex justify-center items-center relative"
           >
             <DrillingVisualization />
