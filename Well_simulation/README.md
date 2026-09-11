@@ -2,6 +2,9 @@
 
 This workspace contains a multi-phase interactive 3D drilling well visualization project built with Vite, Three.js, and GSAP. It demonstrates a drill string, well construction sequence, reservoir visualization, and engineering-style telemetry overlays in a browser-based experience.
 
+## Live Demo
+link: https://well-drilling-simulation.vercel.app/
+
 ## Project structure
 
 - `drilling-well-explorer-final/` — final polished version of the app
