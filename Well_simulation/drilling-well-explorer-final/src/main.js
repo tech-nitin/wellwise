@@ -365,6 +365,300 @@ world.traverse(obj => {
   }
 });
 
+// ===== THEME SYSTEM =====
+const themeConfig = {
+  dark: {
+    background: 0x071116,
+    fog: 0x071116,
+    clearColor: 0x071116,
+    grid: { main: 0x3a5660, sub: 0x1d3139 },
+    hemisphere: { sky: 0xa8c4cf, ground: 0x0b1319, intensity: 1.25 },
+    keyLight: { color: 0xeaf8ff, intensity: 2.7 },
+    rimLight: { color: 0x4ea7b7, intensity: 35 },
+    toneMappingExposure: 1.05,
+    formations: [
+      { c: 0x5d4b40, edge: 0xb58b68 },
+      { c: 0x6d5b50, edge: 0xc4a88e },
+      { c: 0x725a4e, edge: 0xd1a785 },
+      { c: 0x3e5359, edge: 0x6f909a },
+      { c: 0x284f5d, edge: 0x58a8b8 },
+      { c: 0x1b3641, edge: 0x4e8290 },
+    ],
+    reservoir: { color: 0x1c5f70, emissive: 0x0d6570, opacity: 0.20 },
+    reservoirShellMat: { color: 0x1c5f70, emissive: 0x0d6570, emissiveI: 0.7, opacity: 0.20 },
+    targetHalo: { color: 0x79d5df, opacity: 0.12 },
+    well: { color: 0x7dd8e8, emissive: 0x124d58, emissiveI: 0.9 },
+    boreholeWall: { color: 0x6ed3de, opacity: 0.16 },
+    annulus: { color: 0x9bdde6, opacity: 0.06 },
+    casing: [
+      { color: 0xd8e3e6 },
+      { color: 0xc2d0d4 },
+      { color: 0xadc1c7 },
+    ],
+    coupling: { color: 0x9eb2b7 },
+    drill: { color: 0xd9e4e7 },
+    darkMat: { color: 0x354a52 },
+    toolMat: { color: 0x9eb6bb },
+    bladeMat: { color: 0x47636b },
+    deck: { color: 0x152228 },
+    deckEdge: { color: 0x54717a },
+    servicePad: { color: 0x23343a },
+    wellhead: { color: 0x9caeb4 },
+    darkSteel: { color: 0x4e646b },
+    mast: { color: 0x81979d },
+    mastPlatform: { color: 0x1e2e34 },
+    ring: { color: 0x7fe0eb },
+    inspectionRing: { color: 0xc5e9ee },
+    pulseRing: { color: 0x67d1dd },
+    arrowShaft: { color: 0x77d9e6 },
+    arrowHead: { color: 0x77d9e6 },
+    stratal: { color: 0xbdd3d4, opacity: 0.15 },
+    fracture: { color: 0x9db4b8, opacity: 0.1 },
+    telemetry: { color: 0x69c9d4, opacity: 0.55 },
+    ruler: { color: 0x6b858e, opacity: 0.34 },
+    casingShoe: { color: 0xb8c8cc },
+    bitTooth: { color: 0xe3ecee },
+    nozzle: { color: 0x354a52 },
+  },
+  light: {
+    background: 0xf0ece4,
+    fog: 0xf0ece4,
+    clearColor: 0xf0ece4,
+    grid: { main: 0xc8bfb0, sub: 0xd8d0c4 },
+    hemisphere: { sky: 0xf5f0e8, ground: 0xd8d0c4, intensity: 1.6 },
+    keyLight: { color: 0xfff8f0, intensity: 3.2 },
+    rimLight: { color: 0x8ab5a8, intensity: 18 },
+    toneMappingExposure: 1.28,
+    formations: [
+      { c: 0xd8cdb8, edge: 0xc4b898 },  // pale cream (top soil)
+      { c: 0xc49a6a, edge: 0xb8885a },  // orange/brown sandstone
+      { c: 0x7a9a78, edge: 0x6a8a68 },  // muted green
+      { c: 0x6a9aaa, edge: 0x5a8a9a },  // muted blue/cyan
+      { c: 0x4a7080, edge: 0x3a6070 },  // darker blue-gray
+      { c: 0x2a3a44, edge: 0x3a4a54 },  // very dark bottom
+    ],
+    reservoir: { color: 0x3a8a98, emissive: 0x2a7a88, opacity: 0.18 },
+    reservoirShellMat: { color: 0x3a8a98, emissive: 0x2a7a88, emissiveI: 0.5, opacity: 0.15 },
+    targetHalo: { color: 0x4a9aa8, opacity: 0.15 },
+    well: { color: 0x3a6a72, emissive: 0x1a4a52, emissiveI: 0.5 },
+    boreholeWall: { color: 0x4a8a92, opacity: 0.12 },
+    annulus: { color: 0x5a9aa2, opacity: 0.05 },
+    casing: [
+      { color: 0x5a6a6e },
+      { color: 0x4a5a5e },
+      { color: 0x3a4a4e },
+    ],
+    coupling: { color: 0x4a5a5e },
+    drill: { color: 0x3a4a4e },
+    darkMat: { color: 0x2a3a3e },
+    toolMat: { color: 0x4a5a5e },
+    bladeMat: { color: 0x3a4a4e },
+    deck: { color: 0x6a7a7e },
+    deckEdge: { color: 0x8a9a9e },
+    servicePad: { color: 0x7a8a8e },
+    wellhead: { color: 0x4a5a5e },
+    darkSteel: { color: 0x3a4a4e },
+    mast: { color: 0x5a6a6e },
+    mastPlatform: { color: 0x4a5a5e },
+    ring: { color: 0x4a9aa8 },
+    inspectionRing: { color: 0x4a9aa8 },
+    pulseRing: { color: 0x4a9aa8 },
+    arrowShaft: { color: 0x3a8a92 },
+    arrowHead: { color: 0x3a8a92 },
+    stratal: { color: 0x8a9a8e, opacity: 0.18 },
+    fracture: { color: 0x9aaa9e, opacity: 0.12 },
+    telemetry: { color: 0x4a8a92, opacity: 0.45 },
+    ruler: { color: 0x8a8a82, opacity: 0.40 },
+    casingShoe: { color: 0x5a6a6e },
+    bitTooth: { color: 0x4a5a5e },
+    nozzle: { color: 0x2a3a3e },
+  },
+};
+
+// Collect all material references for theme updates
+const themeMaterials = {
+  formationMats,
+  edgeMats,
+  wellMaterial,
+  reservoirMaterial,
+  reservoirShell,
+  boreholeWall,
+  annulus,
+  casings,
+  couplingMat,
+  drillMat,
+  darkMat,
+  toolMat,
+  bladeMat,
+  deckMat,
+  deckEdge,
+  servicePad,
+  wellheadMat,
+  darkSteel,
+  mastMat,
+  ring,
+  inspectionRing,
+  pulseRing,
+  arrowShaft,
+  arrowHead,
+  targetHalo,
+  telemetryLine,
+  casingShoe,
+  bitToothMat,
+  nozzle,
+  stratalMat,
+  rulerMat,
+  grid,
+  keyLight,
+  rimLight,
+};
+
+let currentThemeName = 'dark';
+
+function applyTheme(name) {
+  const t = themeConfig[name];
+  if (!t) return;
+  currentThemeName = name;
+
+  // 1. CSS data-theme
+  document.documentElement.dataset.theme = name;
+
+  // 2. Scene background, fog, renderer
+  scene.background.set(t.background);
+  scene.fog.color.set(t.fog);
+  scene.fog.near = name === 'light' ? 28 : 20;
+  scene.fog.far = name === 'light' ? 65 : 55;
+  renderer.setClearColor(t.clearColor, 1);
+  renderer.toneMappingExposure = t.toneMappingExposure;
+
+  // 3. Lighting
+  const hemiLight = scene.children.find(c => c.isHemisphereLight);
+  if (hemiLight) {
+    hemiLight.color.set(t.hemisphere.sky);
+    hemiLight.groundColor.set(t.hemisphere.ground);
+    hemiLight.intensity = t.hemisphere.intensity;
+  }
+  keyLight.color.set(t.keyLight.color);
+  keyLight.intensity = t.keyLight.intensity;
+  rimLight.color.set(t.rimLight.color);
+  rimLight.intensity = t.rimLight.intensity;
+
+  // 4. Grid
+  grid.dispose();
+  const newGrid = new THREE.GridHelper(24, 48, t.grid.main, t.grid.sub);
+  newGrid.position.copy(grid.position);
+  newGrid.visible = grid.visible;
+  const gridParent = grid.parent || world || scene;
+  gridParent.add(newGrid);
+  if (grid.parent) grid.parent.remove(grid);
+  // Update the grid reference in the closure
+  themeMaterials.grid = newGrid;
+  // Re-bind the gridToggle checkbox
+  const gridToggleEl = document.querySelector('#gridToggle');
+  if (gridToggleEl) {
+    gridToggleEl.onchange = (e) => { newGrid.visible = e.target.checked; };
+  }
+  // Replace the module-level grid reference
+  Object.defineProperty(window, '__wellwise_grid', { value: newGrid, writable: true, configurable: true });
+
+  // 5. Formation materials
+  t.formations.forEach((f, i) => {
+    if (formationMats[i]) formationMats[i].color.set(f.c);
+    if (edgeMats[i]) edgeMats[i].color.set(f.edge);
+  });
+
+  // 6. Reservoir
+  reservoirMaterial.color.set(t.reservoirShellMat.color);
+  reservoirMaterial.emissive.set(t.reservoirShellMat.emissive);
+  reservoirMaterial.emissiveIntensity = t.reservoirShellMat.emissiveI;
+  reservoirMaterial.opacity = t.reservoirShellMat.opacity;
+  targetHalo.material.color.set(t.targetHalo.color);
+  targetHalo.material.opacity = t.targetHalo.opacity;
+
+  // 7. Wellbore
+  wellMaterial.color.set(t.well.color);
+  wellMaterial.emissive.set(t.well.emissive);
+  wellMaterial.emissiveIntensity = t.well.emissiveI;
+  boreholeWall.material.color.set(t.boreholeWall.color);
+  annulus.material.color.set(t.annulus.color);
+
+  // 8. Casings
+  t.casing.forEach((c, i) => {
+    if (casings[i]) casings[i].material.color.set(c.color);
+  });
+  couplingMat.color.set(t.coupling.color);
+  casingShoe.material.color.set(t.casingShoe.color);
+
+  // 9. Drill string / BHA
+  drillMat.color.set(t.drill.color);
+  darkMat.color.set(t.darkMat.color);
+  toolMat.color.set(t.toolMat.color);
+  bladeMat.color.set(t.bladeMat.color);
+  bitToothMat.color.set(t.bitTooth.color);
+  nozzle.material.color.set(t.nozzle.color);
+
+  // 10. Rig / surface
+  deckMat.color.set(t.deck.color);
+  deckEdge.material.color.set(t.deckEdge.color);
+  servicePad.material.color.set(t.servicePad.color);
+  wellheadMat.color.set(t.wellhead.color);
+  darkSteel.color.set(t.darkSteel.color);
+  mastMat.color.set(t.mast.color);
+  // Mast platform (the BoxGeometry child)
+  mast.children.forEach(child => {
+    if (child.isMesh && child.geometry.type === 'BoxGeometry') {
+      child.material.color.set(t.mastPlatform.color);
+    }
+  });
+
+  // 11. Detail elements
+  ring.material.color.set(t.ring.color);
+  inspectionRing.material.color.set(t.inspectionRing.color);
+  pulseRing.material.color.set(t.pulseRing.color);
+  arrowShaft.material.color.set(t.arrowShaft.color);
+  arrowHead.material.color.set(t.arrowHead.color);
+  stratalMat.color.set(t.stratal.color);
+  stratalMat.opacity = t.stratal.opacity;
+  telemetryLine.material.color.set(t.telemetry.color);
+  rulerMat.color.set(t.ruler.color);
+  rulerMat.opacity = t.ruler.opacity;
+
+  // 12. Fracture/strata lines
+  detailGroup.children.forEach(child => {
+    if (child.isLine && child.material && child.material.color && !child.computeLineDistances) {
+      // fracture lines
+      if (child !== telemetryLine && child.material !== rulerMat) {
+        child.material.color.set(t.fracture.color);
+        child.material.opacity = t.fracture.opacity;
+      }
+    }
+  });
+
+  // 13. Update toggle button
+  const toggleBtn = document.querySelector('#themeToggle');
+  if (toggleBtn) {
+    const icon = toggleBtn.querySelector('.theme-icon');
+    const label = toggleBtn.querySelector('.theme-label');
+    if (name === 'dark') {
+      if (icon) icon.textContent = '☀';
+      if (label) label.textContent = 'Light';
+    } else {
+      if (icon) icon.textContent = '🌙';
+      if (label) label.textContent = 'Dark';
+    }
+  }
+
+  // 14. Persist
+  try { localStorage.setItem('wellwise-theme', name); } catch (e) { /* ignore */ }
+}
+
+// Load saved theme on startup
+const savedTheme = (() => { try { return localStorage.getItem('wellwise-theme'); } catch (e) { return null; } })();
+if (savedTheme === 'light') {
+  applyTheme('light');
+}
+
+
 const shotMarker = document.createElement('div');
 shotMarker.className = 'shot-marker';
 shotMarker.textContent = 'SHOT 01 / 09';
@@ -421,6 +715,27 @@ function setMetrics(data) {
   document.querySelector('#azi').textContent = data.azi;
   document.querySelector('#bhaStatus').textContent = data.status;
   document.querySelector('#hudStage').textContent = data.title;
+
+  const hdrMD = document.querySelector('#hdrMD');
+  if (hdrMD) hdrMD.textContent = data.md;
+  const hdrTVD = document.querySelector('#hdrTVD');
+  if (hdrTVD) hdrTVD.textContent = data.tvd;
+  const hdrINC = document.querySelector('#hdrINC');
+  if (hdrINC) hdrINC.textContent = data.inc;
+  const hdrAZI = document.querySelector('#hdrAZI');
+  if (hdrAZI) hdrAZI.textContent = data.azi;
+  const hdrStatus = document.querySelector('#hdrStatus');
+  if (hdrStatus) hdrStatus.textContent = data.status ? data.status.toUpperCase() : 'SIMULATION';
+}
+function updateStageUI(stageKey) {
+  const stageIdx = Math.max(0, stageOrder.indexOf(stageKey));
+  document.querySelectorAll('#stageNav > button').forEach(b => b.classList.toggle('active', b.dataset.stage === stageKey));
+  const steps = document.querySelectorAll('#stageProgress .progress-step');
+  steps.forEach((step, i) => {
+    step.classList.toggle('done', i < stageIdx);
+    step.classList.toggle('active', i === stageIdx);
+    step.classList.toggle('future', i > stageIdx);
+  });
 }
 function setMilestones(idx) {
   const el = document.querySelector('#milestones');
@@ -477,7 +792,7 @@ function applySequenceFrame(index, localProgress = 0) {
   const data = stageData[stageKey];
   setMetrics(data);
   setMilestones(stageIdx);
-  document.querySelectorAll('#stageNav > button').forEach(b => b.classList.toggle('active', b.dataset.stage === stageKey));
+  updateStageUI(stageKey);
   const overall = (index + localProgress) / (sequence.length - 1);
   document.querySelector('#timeline').value = String(Math.round(overall * 100));
   document.querySelector('#stageIndex').textContent = `${String(stageIdx + 1).padStart(2, '0')} / 06`;
@@ -538,7 +853,7 @@ function animateStage(key) {
   currentStage = key;
   const data = stageData[key];
   const idx = stageOrder.indexOf(key);
-  document.querySelectorAll('#stageNav > button').forEach(b => b.classList.toggle('active', b.dataset.stage === key));
+  updateStageUI(key);
   document.querySelector('#stageIndex').textContent = `${String(idx + 1).padStart(2, '0')} / 06`;
   setMetrics(data); setMilestones(idx);
   if (activeTween) activeTween.kill();
@@ -610,7 +925,7 @@ document.querySelector('#sectionBtn').addEventListener('click', toggleSection);
 document.querySelector('#zoomIn').addEventListener('click', () => gsap.to(camera, { zoom: Math.min(camera.zoom + 0.15, 2.5), duration: 0.25, onUpdate: () => camera.updateProjectionMatrix() }));
 document.querySelector('#zoomOut').addEventListener('click', () => gsap.to(camera, { zoom: Math.max(camera.zoom - 0.15, 0.7), duration: 0.25, onUpdate: () => camera.updateProjectionMatrix() }));
 document.querySelector('#opacity').addEventListener('input', e => formationMats.forEach((m, i) => m.opacity = Math.max(0.08, Number(e.target.value) - i * 0.015)));
-document.querySelector('#gridToggle').addEventListener('change', e => grid.visible = e.target.checked);
+document.querySelector('#gridToggle').addEventListener('change', e => { grid.visible = e.target.checked; if (themeMaterials.grid !== grid) themeMaterials.grid.visible = e.target.checked; });
 document.querySelector('#labelsToggle').addEventListener('change', e => labelGroup.visible = e.target.checked);
 document.querySelector('#resetBtn').addEventListener('click', () => animateStage(currentStage));
 document.querySelector('#prevBtn').addEventListener('click', () => animateStage(stageOrder[Math.max(0, stageOrder.indexOf(currentStage) - 1)]));
@@ -626,7 +941,14 @@ document.querySelector('#playBtn').addEventListener('click', () => {
   stopAuto();
   startSequence();
 });
-document.querySelector('#focusToggle').addEventListener('click', () => document.body.classList.toggle('focus-mode'));
+document.querySelector('#focusToggle').addEventListener('click', () => {
+  const isFocus = document.body.classList.toggle('focus-mode');
+  const label = document.querySelector('#focusToggle .focus-label');
+  if (label) label.textContent = isFocus ? 'Exit focus' : 'Focus mode';
+});
+document.querySelector('#themeToggle').addEventListener('click', () => {
+  applyTheme(currentThemeName === 'dark' ? 'light' : 'dark');
+});
 
 
 const shotModeBtn = document.createElement('button');

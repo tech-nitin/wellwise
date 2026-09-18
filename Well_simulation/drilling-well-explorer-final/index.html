@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="en">
+<html lang="en" data-theme="dark">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -8,25 +8,97 @@
 <body>
 <div id="app">
   <header class="topbar">
-    <div class="title-block">
-      <div class="eyebrow">◉ Directional well construction explorer</div>
+    <div class="header-left">
+      <div class="brand-icon">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2L2 7l10 5 10-5-10-5z"></path>
+          <path d="M2 17l10 5 10-5"></path>
+          <path d="M2 12l10 5 10-5"></path>
+        </svg>
+      </div>
+      <div class="brand-info">
+        <div class="brand-title">WellWise <span class="brand-slash">/</span> Directional Well Explorer</div>
+        <div class="brand-sub">Engineering visualization &amp; drilling simulation</div>
+      </div>
     </div>
-    <div class="topbar-actions"><span class="production-badge">FINAL / REFERENCE MATCH</span><button id="focusToggle" class="top-action">↗ Exit focus mode</button></div>
+
+    <div class="header-center">
+      <div class="well-status-strip">
+        <span class="status-chip rig-tag"><span class="chip-dot"></span><b>WELL-24A</b></span>
+        <span class="status-sep">│</span>
+        <span class="status-metric"><span class="lbl">MD</span><b id="hdrMD">4,120 m</b></span>
+        <span class="status-sep">│</span>
+        <span class="status-metric"><span class="lbl">TVD</span><b id="hdrTVD">3,680 m</b></span>
+        <span class="status-sep">│</span>
+        <span class="status-metric"><span class="lbl">INC</span><b id="hdrINC">58°</b></span>
+        <span class="status-sep">│</span>
+        <span class="status-metric"><span class="lbl">AZI</span><b id="hdrAZI">142°</b></span>
+        <span class="status-sep">│</span>
+        <span class="status-chip sim-tag"><span class="pulse-dot"></span><b id="hdrStatus">SIMULATION</b></span>
+      </div>
+    </div>
+
+    <div class="header-right">
+      <span class="production-badge">REF MATCH</span>
+      <button id="themeToggle" class="top-action theme-toggle" title="Toggle light/dark theme">
+        <span class="theme-switch"><span class="switch-handle"></span></span>
+        <span class="theme-icon">☀</span>
+        <span class="theme-label">Light</span>
+      </button>
+      <button id="focusToggle" class="top-action focus-toggle" title="Toggle focus mode">
+        <span class="focus-icon">⛶</span>
+        <span class="focus-label">Focus mode</span>
+      </button>
+    </div>
   </header>
 
-  <div class="stage-strip" id="stageNav">
-    <button data-stage="overview" class="active">Overview</button>
-    <button data-stage="well">Well section</button>
-    <button data-stage="lithology">Lithology</button>
-    <button data-stage="bha">Directional BHA</button>
-    <button data-stage="casing">Surface &amp; casing</button>
-    <button data-stage="evaluation">Evaluation</button>
-    <div class="view-tools">
-      <button data-view="iso" title="Isometric">◇</button>
-      <button data-view="front" title="Front">↕</button>
-      <button data-view="top" title="Top">⊙</button>
-      <button id="explodeBtn" title="Explode">✦</button>
-      <button id="sectionBtn" title="Section">◐</button>
+  <div class="stage-nav-strip">
+    <div class="stage-strip-row">
+      <div class="stage-strip" id="stageNav">
+        <button data-stage="overview" class="active">
+          <span class="stage-num">01</span>
+          <span class="stage-title">Overview</span>
+        </button>
+        <button data-stage="well">
+          <span class="stage-num">02</span>
+          <span class="stage-title">Well section</span>
+        </button>
+        <button data-stage="lithology">
+          <span class="stage-num">03</span>
+          <span class="stage-title">Lithology</span>
+        </button>
+        <button data-stage="bha">
+          <span class="stage-num">04</span>
+          <span class="stage-title">Directional BHA</span>
+        </button>
+        <button data-stage="casing">
+          <span class="stage-num">05</span>
+          <span class="stage-title">Surface &amp; casing</span>
+        </button>
+        <button data-stage="evaluation">
+          <span class="stage-num">06</span>
+          <span class="stage-title">Evaluation</span>
+        </button>
+      </div>
+
+      <div class="view-tools">
+        <button data-view="iso" title="Isometric View" class="tool-btn"><span class="tool-icon">◇</span><span class="tool-label">Iso</span></button>
+        <button data-view="front" title="Front View" class="tool-btn"><span class="tool-icon">↕</span><span class="tool-label">Front</span></button>
+        <button data-view="top" title="Top View" class="tool-btn"><span class="tool-icon">⊙</span><span class="tool-label">Top</span></button>
+        <button id="explodeBtn" title="Explode View" class="tool-btn"><span class="tool-icon">✦</span><span class="tool-label">Explode</span></button>
+        <button id="sectionBtn" title="Section View" class="tool-btn"><span class="tool-icon">◐</span><span class="tool-label">Section</span></button>
+      </div>
+    </div>
+
+    <div class="stage-progress-container" id="stageProgress">
+      <div class="progress-track">
+        <div class="progress-step active" data-step="0"><span class="step-dot"></span><span class="step-connector"></span></div>
+        <div class="progress-step future" data-step="1"><span class="step-dot"></span><span class="step-connector"></span></div>
+        <div class="progress-step future" data-step="2"><span class="step-dot"></span><span class="step-connector"></span></div>
+        <div class="progress-step future" data-step="3"><span class="step-dot"></span><span class="step-connector"></span></div>
+        <div class="progress-step future" data-step="4"><span class="step-dot"></span><span class="step-connector"></span></div>
+        <div class="progress-step future" data-step="5"><span class="step-dot"></span></div>
+      </div>
     </div>
   </div>
 

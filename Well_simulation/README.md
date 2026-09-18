@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # Drilling Well Explorer
 
 This workspace contains a multi-phase interactive 3D drilling well visualization project built with Vite, Three.js, and GSAP. It demonstrates a drill string, well construction sequence, reservoir visualization, and engineering-style telemetry overlays in a browser-based experience.
@@ -72,7 +71,3 @@ npm run preview
 ## License
 
 This project is provided for educational and demonstration purposes.
-=======
-# wellwise
-AI-Powered Nearby Wells Intelligence and Decision Support Platform for Drilling Operations — SIH26121
->>>>>>> 4c0f51eeb9162137fb2bf9ce9cafbc76852c239e
