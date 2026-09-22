@@ -1102,7 +1102,9 @@ div {
 #playBtn,
 #nextBtn,
 #prevBtn,
-#sequencePlay {
+#sequencePlay,
+#resetBtn,
+#autoBtn {
   background: #000;
   border: 1px solid #000;
   color: #ffffff;
@@ -1112,7 +1114,9 @@ div {
 #playBtn:hover,
 #nextBtn:hover,
 #prevBtn:hover,
-#sequencePlay:hover {
+#sequencePlay:hover,
+#resetBtn:hover,
+#autoBtn:hover {
   background: #111;
   border-color: #111
 }
