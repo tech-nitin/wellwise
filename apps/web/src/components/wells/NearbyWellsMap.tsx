@@ -56,8 +56,8 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
-const DEFAULT_CENTER: [number, number] = [78.9629, 22.0000];
-const DEFAULT_ZOOM = 4.8;
+const DEFAULT_CENTER: [number, number] = [95.38042, 27.59626];
+const DEFAULT_ZOOM = 10.0;
 
 const MAPTILER_STYLE_MAP: Record<BasemapStyleId, string> = {
   streets: "streets-v4",
@@ -76,7 +76,7 @@ export function NearbyWellsMap() {
 
   // Geographic & Well selection state
   const [selectedLocation, setSelectedLocation] = useState<LocationNode>(DEFAULT_LOCATION);
-  const [activeTargetWellId, setActiveTargetWellId] = useState<string>("NHK-124");
+  const [activeTargetWellId, setActiveTargetWellId] = useState<string>("OIL-BGN-05");
   const [selectedWell, setSelectedWell] = useState<Well | null>(SYNTHETIC_WELLS[0]);
 
   // Filters & GIS state
@@ -96,7 +96,7 @@ export function NearbyWellsMap() {
   // Modals state
   const [comparisonState, setComparisonState] = useState<ComparisonState>({
     open: false,
-    targetWellId: "NHK-124",
+    targetWellId: "OIL-BGN-05",
   });
   const [dossierWell, setDossierWell] = useState<Well | null>(null);
   const [showExportReport, setShowExportReport] = useState<boolean>(false);
@@ -941,7 +941,7 @@ export function NearbyWellsMap() {
                   <div>
                     <span className="font-extrabold block">No demo wells available for this location yet.</span>
                     <span className="text-[#142B3A]/75 text-[11px] mt-0.5 block">
-                      Select Assam Basin, Cambay Basin, Barmer Basin, Bhopal, or Indore to view synthetic demonstration wells.
+                      Select Upper Assam Basin or Cambay Basin to view verified oil & gas wells.
                     </span>
                   </div>
                 </div>
