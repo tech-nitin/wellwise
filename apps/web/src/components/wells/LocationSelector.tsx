@@ -191,51 +191,6 @@ export function LocationSelector({
               </div>
             )}
 
-            {/* Madhya Pradesh Demonstration Areas */}
-            {cities.length > 0 && (
-              <div className="space-y-1">
-                <span className="text-[10px] font-mono uppercase text-[#245463] font-extrabold px-2 block">
-                  Demonstration Sectors (MP)
-                </span>
-                {cities.map((loc) => {
-                  const isSelected = selectedLocation.id === loc.id;
-                  const wellCount = getLocationWellCount(loc.id);
-                  return (
-                    <button
-                      key={loc.id}
-                      onClick={() => handleSelect(loc)}
-                      className={`w-full flex items-center justify-between p-2 rounded-xl text-left transition-colors cursor-pointer ${
-                        isSelected
-                          ? "bg-[#142B3A] text-white font-bold"
-                          : "hover:bg-[#DDD2C0]/30 text-[#0D1B24]"
-                      }`}
-                    >
-                      <div className="flex items-center gap-2 min-w-0">
-                        <MapPin className={`h-3.5 w-3.5 shrink-0 ${isSelected ? "text-[#D96B3B]" : "text-[#245463]"}`} />
-                        <div className="min-w-0">
-                          <span className="truncate block font-bold">{loc.name}</span>
-                          <span className={`text-[10px] truncate block ${isSelected ? "text-white/70" : "text-[#142B3A]/60"}`}>
-                            {loc.description}
-                          </span>
-                        </div>
-                      </div>
-                      <div className="flex items-center gap-1.5 shrink-0 pl-2">
-                        <span
-                          className={`text-[10px] font-mono px-1.5 py-0.2 rounded font-bold ${
-                            isSelected
-                              ? "bg-[#D96B3B] text-white"
-                              : "bg-[#DDD2C0]/60 text-[#142B3A]"
-                          }`}
-                        >
-                          {wellCount < 10 ? `0${wellCount}` : wellCount}
-                        </span>
-                        {isSelected && <Check className="h-3.5 w-3.5 text-[#D96B3B]" />}
-                      </div>
-                    </button>
-                  );
-                })}
-              </div>
-            )}
 
             {/* States Overview */}
             {states.length > 0 && (
