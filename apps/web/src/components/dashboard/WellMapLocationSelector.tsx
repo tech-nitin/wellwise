@@ -149,7 +149,7 @@ export function WellMapLocationSelector({
                 type="text"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                placeholder="Search basin, state, city (e.g. Assam, Bhopal, Cambay)..."
+                placeholder="Search basin or state (e.g. Upper Assam, Cambay, Gujarat)..."
                 className="w-full pl-8 pr-3 py-1.5 rounded-xl bg-[#FAF8F5] border border-[#DDD2C0] text-xs font-mono text-[#0D1B24] placeholder:text-[#142B3A]/40 focus:outline-none focus:border-[#142B3A]"
               />
             </div>
@@ -289,80 +289,6 @@ export function WellMapLocationSelector({
                 </div>
               )}
 
-              {/* 3. Cities / Sectors (Madhya Pradesh: Bhopal, Indore) */}
-              {cityNodes.length > 0 && (
-                <div>
-                  <div className="text-[10px] font-mono uppercase tracking-wider text-[#A9533D] font-bold px-2 mb-1">
-                    Madhya Pradesh Demo Sectors
-                  </div>
-                  <div className="space-y-1">
-                    {cityNodes.map((loc) => {
-                      const isSelected = selectedLocation.id === loc.id;
-                      const wellCount = getLocationWellCount(loc.id);
-
-                      return (
-                        <button
-                          key={loc.id}
-                          onClick={() => handleSelect(loc)}
-                          className={cn(
-                            "w-full flex items-center justify-between p-2 rounded-xl text-left transition-colors cursor-pointer border",
-                            isSelected
-                              ? "bg-[#142B3A] text-white border-[#142B3A]"
-                              : "bg-[#FAF8F5] hover:bg-[#DDD2C0]/40 text-[#0D1B24] border-transparent"
-                          )}
-                        >
-                          <div className="flex items-center gap-2.5">
-                            <div
-                              className={cn(
-                                "h-6 w-6 rounded-lg flex items-center justify-center shrink-0",
-                                isSelected ? "bg-[#A9533D] text-white" : "bg-[#DDD2C0]/50"
-                              )}
-                            >
-                              {getBadgeTypeIcon(loc.type)}
-                            </div>
-                            <div>
-                              <div className="flex items-center gap-1.5">
-                                <span className="text-xs font-bold font-mono block leading-tight">
-                                  {loc.name}
-                                </span>
-                                <span
-                                  className={cn(
-                                    "text-[9px] font-mono px-1 rounded",
-                                    isSelected
-                                      ? "bg-white/20 text-white"
-                                      : "bg-[#A9533D]/15 text-[#A9533D] font-bold"
-                                  )}
-                                >
-                                  MP Demo
-                                </span>
-                              </div>
-                              <span
-                                className={cn(
-                                  "text-[10px] block leading-tight truncate max-w-[190px]",
-                                  isSelected ? "text-white/70" : "text-[#142B3A]/60"
-                                )}
-                              >
-                                {loc.description}
-                              </span>
-                            </div>
-                          </div>
-
-                          <span
-                            className={cn(
-                              "text-[10px] font-mono font-bold px-1.5 py-0.5 rounded shrink-0",
-                              isSelected
-                                ? "bg-[#D96B3B] text-white"
-                                : "bg-[#DDD2C0]/40 text-[#0D1B24]"
-                            )}
-                          >
-                            {wellCount} {wellCount === 1 ? "Well" : "Wells"}
-                          </span>
-                        </button>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
 
               {/* 4. States Overview */}
               {stateNodes.length > 0 && (
