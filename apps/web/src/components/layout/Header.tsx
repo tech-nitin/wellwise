@@ -109,12 +109,13 @@ export function Header() {
   const isIntelligenceActive =
     pathname === "/risks" || pathname === "/knowledge";
 
-  // Mock search suggestions
+  // Verified real Indian well search suggestions
   const suggestedSearches = [
-    { label: "Well NHK-124", desc: "Active drilling target (Assam Basin)", href: "/dashboard#nearby-wells-map" },
-    { label: "Demo Well — Cambay", desc: "Ankleshwar formation benchmark (Gujarat)", href: "/dashboard#nearby-wells-map" },
-    { label: "Demo Well — Bhopal", desc: "Central Vindhyan demo monitoring (MP)", href: "/dashboard#nearby-wells-map" },
-    { label: "Demo Well — Indore", desc: "Deccan Trap basalt monitoring (MP)", href: "/dashboard#nearby-wells-map" },
+    { label: "Baghjan-5 (OIL-BGN-05)", desc: "Critical Kick Precedent (Upper Assam Basin)", href: "/dashboard#nearby-wells-map" },
+    { label: "Baghjan-1 (OIL-BGN-01)", desc: "Mud Circulation Loss Precedent (Assam)", href: "/dashboard#nearby-wells-map" },
+    { label: "Balimara-1 (OIL-BLM-01)", desc: "Differential Stuck Pipe Precedent (Assam)", href: "/dashboard#nearby-wells-map" },
+    { label: "Lakwagaon-1 (OIL-LKW-01)", desc: "Shale Pack-Off Precedent (Assam)", href: "/dashboard#nearby-wells-map" },
+    { label: "Ankleshwar-14 (ONGC-ANK-14)", desc: "Cambay Shale Instability (Gujarat)", href: "/dashboard#nearby-wells-map" },
     { label: "Differential Sticking", desc: "Early warning hazard mitigation", href: "/risks" },
     { label: "Live ROP Telemetry", desc: "Real-time surface & downhole MWD", href: "/live-monitoring" },
     { label: "Ask the Field", desc: "Natural-language DDR knowledge search", href: "/knowledge" },
@@ -260,7 +261,7 @@ export function Header() {
                     </Link>
 
                     <Link
-                      href="/wells/NHK-124"
+                      href="/wells/OIL-BGN-05"
                       onClick={() => setActiveDropdown(null)}
                       className="flex items-start gap-3 p-2.5 rounded-xl hover:bg-[#DDD2C0]/40 transition-colors group cursor-pointer mt-1"
                     >
@@ -476,7 +477,7 @@ export function Header() {
                         <span>Nearby Wells (India GIS)</span>
                       </Link>
                       <Link
-                        href="/wells/NHK-124"
+                        href="/wells/OIL-BGN-05"
                         onClick={() => setMobileMenuOpen(false)}
                         className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-[#142B3A] hover:bg-[#DDD2C0]/40"
                       >
