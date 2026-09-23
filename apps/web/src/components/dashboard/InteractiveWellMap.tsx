@@ -24,9 +24,9 @@ import { LiquidButton } from "@/components/ui/liquid-button";
 import { GeologicalBackground } from "@/components/ui/GeologicalBackground";
 import { Radio, KeyRound, ArrowRight, AlertCircle } from "lucide-react";
 
-// Initial center point: Indian Subcontinent overview (2D MapLibre map)
-const DEFAULT_CENTER: [number, number] = [78.9629, 22.0000];
-const DEFAULT_ZOOM = 4.6;
+// Initial center point: Upper Assam Basin (location of verified Baghjan oil field)
+const DEFAULT_CENTER: [number, number] = [95.38042, 27.59626];
+const DEFAULT_ZOOM = 10.0;
 
 export function InteractiveWellMap() {
   const mapContainerRef = useRef<HTMLDivElement>(null);
@@ -38,25 +38,62 @@ export function InteractiveWellMap() {
   const [selectedLocation, setSelectedLocation] = useState<LocationNode>(DEFAULT_LOCATION);
   const [selectedWell, setSelectedWell] = useState<Well | null>(SYNTHETIC_WELLS[0]);
   const [activeFilter, setActiveFilter] = useState<WellFilterType>("ALL");
-  const [radiusKm, setRadiusKm] = useState<number>(5);
+  const [radiusKm, setRadiusKm] = useState<number>(25);
   const [mapLoaded, setMapLoaded] = useState<boolean>(false);
   const [currentZoom, setCurrentZoom] = useState<number>(DEFAULT_ZOOM);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [mlPrediction, setMlPrediction] = useState<any>(null);
+  const [mlLoading, setMlLoading] = useState<boolean>(false);
 
   // Get wells in the currently selected geographic scope
   const locationWells = getWellsByLocation(selectedLocation.id);
 
   // Determine the active reference well in this location for radius buffering
   const activeWell =
-    locationWells.find((w) => w.status === "active") ||
+    locationWells.find((w) => w.type === "active" || w.status === "active") ||
     locationWells[0] ||
     SYNTHETIC_WELLS[0];
 
+  // Fetch real-time ML risk prediction whenever selectedWell or radiusKm changes
+  useEffect(() => {
+    if (!selectedWell) return;
+    let isCancelled = false;
+    setMlLoading(true);
+
+    fetch('/api/predict-well-risk', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        latitude: selectedWell.latitude,
+        longitude: selectedWell.longitude,
+        target_tvd: selectedWell.depthM,
+        target_formation: selectedWell.formation,
+        well_type: selectedWell.type === 'active' ? 'Directional' : 'Vertical',
+        search_radius_km: radiusKm,
+      }),
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        if (!isCancelled && data.status === 'success') {
+          setMlPrediction(data);
+        }
+      })
+      .catch((err) => console.warn('ML risk prediction fetch warning:', err))
+      .finally(() => {
+        if (!isCancelled) setMlLoading(false);
+      });
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [selectedWell, radiusKm]);
+
   // Filter wells based on current active category tab
   const filteredWells = locationWells.filter((w) => {
-    if (activeFilter === "ACTIVE") return w.status === "active";
+    if (activeFilter === "ACTIVE") return w.status === "active" || w.type === "active";
     if (activeFilter === "NEARBY") return w.distanceKm <= radiusKm;
-    if (activeFilter === "HIGH_RISK") return w.status === "critical" || w.status === "warning";
+    if (activeFilter === "HIGH_RISK") return w.status === "critical" || w.status === "warning" || (w.hazardType && w.hazardType !== "NONE");
     if (activeFilter === "HISTORICAL_MATCH") return w.status === "historical" || w.historicalMatch >= 88;
     return true; // ALL
   });
@@ -183,7 +220,7 @@ export function InteractiveWellMap() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // 2. Update Radius Buffer GeoJSON when radiusKm, activeWell, or location changes
+  // 2. Update Radius Buffer GeoJSON and dynamic ML hazard color
   useEffect(() => {
     if (!mapRef.current || !mapLoaded || !activeWell) return;
     const map = mapRef.current;
@@ -195,8 +232,29 @@ export function InteractiveWellMap() {
         radiusKm
       );
       source.setData(radiusData);
+
+      const hazardScore =
+        mlPrediction?.hazard_score !== undefined
+          ? mlPrediction.hazard_score
+          : activeWell.riskScore
+          ? activeWell.riskScore / 100
+          : 0.5;
+
+      const hazardColor =
+        hazardScore > 0.65
+          ? "#843D35"
+          : hazardScore > 0.40
+          ? "#D96B3B"
+          : "#2F8068";
+
+      if (map.getLayer("radius-buffer-fill")) {
+        map.setPaintProperty("radius-buffer-fill", "fill-color", hazardColor);
+      }
+      if (map.getLayer("radius-buffer-line")) {
+        map.setPaintProperty("radius-buffer-line", "line-color", hazardColor);
+      }
     }
-  }, [radiusKm, mapLoaded, activeWell]);
+  }, [radiusKm, mapLoaded, activeWell, mlPrediction]);
 
   // Handle location selection with smooth flyTo animation
   const handleLocationSelect = (loc: LocationNode) => {
@@ -270,11 +328,9 @@ export function InteractiveWellMap() {
 
         markersRef.current.push(marker);
       });
-
-      return;
     }
 
-    // LEVEL 2 & 3: Individual Well Markers
+    // LEVEL 2 & 3: Individual Well Markers (Rendered across all zoom levels)
     filteredWells.forEach((well) => {
       const isSelected = selectedWell?.id === well.id;
       const isActive = well.status === "active";
@@ -286,19 +342,39 @@ export function InteractiveWellMap() {
       el.className = "well-custom-marker select-none cursor-pointer group";
       el.setAttribute("aria-label", `Well ${well.id} - ${well.status}`);
 
-      // Semantic Color scheme
+      // Semantic Color & Hazard scheme
+      const hazardType = well.hazardType || (isCritical ? "KICK" : isWarning ? "MUD_LOSS" : "NONE");
+      let hazardIcon = "🔵";
+      let hazardLabel = "";
+      if (hazardType === "KICK") {
+        hazardIcon = "⚠️";
+        hazardLabel = "KICK";
+      } else if (hazardType === "MUD_LOSS") {
+        hazardIcon = "🛑";
+        hazardLabel = "MUD LOSS";
+      } else if (hazardType === "STUCK_PIPE") {
+        hazardIcon = "⚓";
+        hazardLabel = "STUCK PIPE";
+      } else if (hazardType === "WELLBORE_INSTABILITY") {
+        hazardIcon = "💥";
+        hazardLabel = "PACK-OFF";
+      }
+
       let pinColor = "bg-[#2F8068] text-white border-[#2F8068]";
       let dotColor = "bg-white";
 
       if (isActive) {
         pinColor = "bg-[#2F8068] text-white border-[#2F8068] ring-4 ring-[#2F8068]/30";
         dotColor = "bg-[#D96B3B] animate-pulse";
-      } else if (isCritical) {
+      } else if (isCritical || hazardType === "KICK") {
         pinColor = "bg-[#843D35] text-white border-[#843D35] ring-2 ring-[#843D35]/30";
         dotColor = "bg-white";
-      } else if (isWarning) {
-        pinColor = "bg-[#D96B3B] text-[#0D1B24] border-[#D96B3B] ring-2 ring-[#D96B3B]/35";
-        dotColor = "bg-[#0D1B24]";
+      } else if (isWarning || hazardType === "MUD_LOSS" || hazardType === "STUCK_PIPE") {
+        pinColor = "bg-[#D96B3B] text-white border-[#D96B3B] ring-2 ring-[#D96B3B]/35";
+        dotColor = "bg-white";
+      } else if (hazardType === "WELLBORE_INSTABILITY") {
+        pinColor = "bg-[#6B21A8] text-white border-[#6B21A8] ring-2 ring-[#6B21A8]/30";
+        dotColor = "bg-white";
       } else if (isHistorical) {
         pinColor = "bg-[#245463] text-white border-[#245463]";
         dotColor = "bg-[#DDD2C0]";
@@ -316,12 +392,13 @@ export function InteractiveWellMap() {
           <div class="relative flex items-center gap-1.5 px-2.5 py-1 rounded-full shadow-md transition-transform duration-200 border ${pinColor} ${
         isSelected ? "scale-115 ring-4 ring-[#D96B3B] bg-[#142B3A] text-white" : "hover:scale-105"
       }">
-            <span class="h-2 w-2 rounded-full ${dotColor}"></span>
+            <span class="text-[10px]">${hazardIcon}</span>
             <span class="text-[11px] font-mono font-bold tracking-tight whitespace-nowrap">${well.id}</span>
+            ${hazardLabel ? `<span class="text-[8px] font-mono font-bold px-1.5 py-0.2 rounded bg-black/40 text-white uppercase tracking-wider">${hazardLabel}</span>` : ""}
           </div>
           ${
-            !isActive && well.distanceKm > 0
-              ? `<span class="absolute top-full left-1/2 -translate-x-1/2 mt-1 text-[9px] font-mono text-[#0D1B24] bg-[#F5F0E6]/95 px-1.5 py-0.5 rounded-md border border-[#DDD2C0] whitespace-nowrap opacity-90 pointer-events-none shadow-2xs">${well.distanceKm} km</span>`
+            well.field || (!isActive && well.distanceKm > 0)
+              ? `<span class="absolute top-full left-1/2 -translate-x-1/2 mt-1 text-[9px] font-mono text-[#0D1B24] bg-[#F5F0E6]/95 px-1.5 py-0.5 rounded-md border border-[#DDD2C0] whitespace-nowrap opacity-90 pointer-events-none shadow-2xs">${well.field || ""}${well.distanceKm > 0 ? ` &bull; ${well.distanceKm} km` : ""}</span>`
               : ""
           }
         </div>
@@ -388,7 +465,7 @@ export function InteractiveWellMap() {
                   <span>INDIA GIS INTELLIGENCE</span>
                 </span>
                 <span className="text-[11px] font-mono text-[#0D1B24] font-bold bg-[#DDD2C0]/40 px-2.5 py-0.5 rounded-md border border-[#DDD2C0]">
-                  ACTIVE WELL: {activeWell ? activeWell.id : "NHK-124"}
+                  ACTIVE WELL: {activeWell ? activeWell.id : "OIL-BGN-05"}
                 </span>
               </div>
 
@@ -399,7 +476,7 @@ export function InteractiveWellMap() {
               </div>
 
               <p className="text-xs sm:text-sm text-[#142B3A]/80 leading-relaxed">
-                Explore nearby and offset wells, historical drilling events, formation intelligence and operational risks across Indian oil &amp; gas regions.
+                Explore nearby and offset wells with live ML look-ahead risk prediction, stratigraphic correlation, and verified blowout &amp; mud loss precedents.
               </p>
             </div>
 
@@ -460,9 +537,9 @@ export function InteractiveWellMap() {
               <div className="absolute top-18 left-4 right-4 sm:right-auto sm:max-w-sm z-20 p-3 rounded-xl bg-[#F5F0E6]/95 backdrop-blur-md border border-[#DDD2C0] shadow-md flex items-start gap-2.5 text-xs text-[#0D1B24]">
                 <AlertCircle className="h-4 w-4 text-[#D96B3B] shrink-0 mt-0.5" />
                 <div>
-                  <span className="font-bold block">No indexed demo wells available for this location yet.</span>
+                  <span className="font-bold block">No indexed wells available for this filter.</span>
                   <span className="text-[#142B3A]/75 text-[11px]">
-                    Select a demonstration basin such as Assam Basin, Cambay Basin, Bhopal, or Indore to view synthetic wells.
+                    Select Upper Assam Basin or Cambay Basin to view verified Indian oil &amp; gas wells.
                   </span>
                 </div>
               </div>
@@ -500,6 +577,8 @@ export function InteractiveWellMap() {
                   well={selectedWell}
                   onClose={() => setSelectedWell(null)}
                   onSelectSimilarWell={handleSelectSimilarWell}
+                  mlPrediction={mlPrediction}
+                  mlLoading={mlLoading}
                 />
               )}
             </AnimatePresence>
